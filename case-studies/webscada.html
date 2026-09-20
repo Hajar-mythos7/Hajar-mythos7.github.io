@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WebSCADA Pro — Case Study | EL YOUSFI Hajar</title>
+<meta name="description" content="Case study: a real-time industrial SCADA web app — SVG synoptics, 3-level alarms, 24h trends and OEE, streamed over WebSocket at under 15 ms.">
+<meta property="og:title" content="WebSCADA Pro — Case Study">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050505'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' text-anchor='middle' fill='%2357b8ff'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Primary">
+  <div class="container nav-inner">
+    <a class="brand" href="../index.html"><b>HAJAR</b><span>/</span><b>ELYOUSFI</b></a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#stack">Stack</a></li>
+      <li><a href="../index.html#cv">CV</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta magnetic" href="../assets/cv/Elyousfi_Hajar_CV_Generaliste_2027.pdf" target="_blank" rel="noopener">Download CV</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="container">
+    <a class="cs-back" href="../index.html#work">Back to portfolio</a>
+    <p class="cs-kicker">CASE STUDY 04 · REAL-TIME WEB · SCADA</p>
+    <h1>WebSCADA Pro</h1>
+    <p class="cs-sub">A real-time industrial supervision platform: SVG synoptic diagrams, 3-level alarms, 24-hour trends and OEE — all streamed to the browser over WebSocket at &lt;15 ms.</p>
+    <div class="cs-meta">
+      <span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Socket.io</span><span class="chip">InfluxDB</span>
+    </div>
+  </div>
+</header>
+
+<div class="container cs-layout">
+  <aside class="cs-toc" aria-label="Sections">
+    <p>CONTENTS</p>
+    <a href="#problem">01 · Problem</a>
+    <a href="#context">02 · Context</a>
+    <a href="#architecture">03 · Architecture</a>
+    <a href="#methodology">04 · Methodology</a>
+    <a href="#implementation">05 · Implementation</a>
+    <a href="#results">06 · Results</a>
+    <a href="#lessons">07 · Lessons learned</a>
+    <a href="#future">08 · Future improvements</a>
+  </aside>
+
+  <div class="cs-content">
+    <section class="cs-sec" id="problem">
+      <h2><span class="cs-n">01</span>Problem</h2>
+      <p>Industrial plant operators still live in legacy desktop SCADA — slow to update, hard to reach remotely, painful to integrate with other business systems. The goal: a <strong>browser-native</strong> supervision UI with genuinely real-time telemetry.</p>
+    </section>
+
+    <section class="cs-sec" id="context">
+      <h2><span class="cs-n">02</span>Context</h2>
+      <ul>
+        <li>Modern web stack (React front-end, Node back-end).</li>
+        <li>Time-series storage for history and trends (InfluxDB).</li>
+        <li>Requirement: alarm management with three severity levels and an availability metric (OEE).</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="architecture">
+      <h2><span class="cs-n">03</span>Architecture</h2>
+      <div class="cs-diagram">
+        <p class="cd-label">DATA PATH</p>
+        <svg viewBox="0 0 540 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="monospace" font-size="10.5">
+            <rect x="30" y="54" width="86" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="73" y="75" text-anchor="middle" fill="var(--dim)">sensors</text>
+            <line x1="116" y1="71" x2="152" y2="71" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="156" y="54" width="80" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="196" y="75" text-anchor="middle" fill="var(--dim)">gateway</text>
+            <line x1="236" y1="71" x2="272" y2="71" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="276" y="54" width="110" height="34" rx="8" stroke="var(--accent)" stroke-width="1.4"/>
+            <text x="331" y="75" text-anchor="middle" fill="var(--accent)">Node · WS</text>
+            <line x1="386" y1="71" x2="422" y2="71" stroke="var(--violet)" stroke-opacity="0.7"/>
+            <rect x="426" y="54" width="88" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="470" y="75" text-anchor="middle" fill="var(--dim)">React UI</text>
+            <rect x="276" y="112" width="110" height="24" rx="7" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="331" y="128" text-anchor="middle" fill="var(--dim)">InfluxDB</text>
+            <line x1="420" y1="128" x2="276" y2="128" stroke="var(--accent)" stroke-opacity="0.35"/>
+            <text x="348" y="104" fill="var(--accent)" font-family="monospace" font-size="9" opacity="0.7">queries · trends</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="cs-sec" id="methodology">
+      <h2><span class="cs-n">04</span>Methodology</h2>
+      <ul>
+        <li><strong>Live path:</strong> telemetry pushed via WebSocket to React — no polling.</li>
+        <li><strong>History path:</strong> time-bucketed queries to InfluxDB for 24-hour trends.</li>
+        <li><strong>Alarms:</strong> threshold engine with 3 levels (info / warning / critical), persisted and acked.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="implementation">
+      <h2><span class="cs-n">05</span>Implementation</h2>
+      <ul>
+        <li>SVG synoptic components rendered declaratively in React from an equipment model.</li>
+        <li>Socket.io server fanning out state deltas to all connected clients.</li>
+        <li>OEE computed from availability / performance / quality windows.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="results">
+      <h2><span class="cs-n">06</span>Results</h2>
+      <div class="cs-stats">
+        <div class="cs-stat"><b>&lt;15 ms</b><span>live telemetry latency</span></div>
+        <div class="cs-stat"><b>24 h</b><span>persistent trends</span></div>
+        <div class="cs-stat"><b>3-level</b><span>alarm management</span></div>
+      </div>
+      <p>The WebSocket path keeps the UI effectively live, and the SVG synoptics give operators a familiar plant view without the legacy desktop runtime.</p>
+    </section>
+
+    <section class="cs-sec" id="lessons">
+      <h2><span class="cs-n">07</span>Lessons learned</h2>
+      <ul>
+        <li>Delta sync (send state changes, not full frames) is what keeps latency low at scale.</li>
+        <li>Declarative SVG from a model beats hand-drawn screens — equipment changes stay cheap.</li>
+        <li>Alarms need acknowledgement workflow, not just display.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="future">
+      <h2><span class="cs-n">08</span>Future improvements</h2>
+      <ul>
+        <li>Predictive alerts powered by the anomaly-detection methods used in the OCP monitoring work.</li>
+        <li>PLC-protocol-native ingest (Modbus / OPC-UA).</li>
+        <li>Role-based dashboards and audit trail for operators.</li>
+      </ul>
+    </section>
+
+    <nav class="cs-nav" aria-label="Next case study">
+      <a href="o-ran.html"><span>Next case study</span><b>Proactive Load Balancing in 5G O-RAN →</b></a>
+      <a href="../index.html#work"><span>Back to</span><b>All selected work</b></a>
+    </nav>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© 2026 EL YOUSFI Hajar</p>
+    <p><a href="#top">Back to top ↑</a></p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

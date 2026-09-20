@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intelligent Intrusion Detection Camera — Case Study | EL YOUSFI Hajar</title>
+<meta name="description" content="Case study: edge AI intrusion-detection camera on a Raspberry Pi 4 — YOLOv8n, 3-level alerts and MQTT, built during a 2026 PFA internship.">
+<meta property="og:title" content="Intelligent Intrusion Detection Camera — Case Study">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050505'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' text-anchor='middle' fill='%2357b8ff'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Primary">
+  <div class="container nav-inner">
+    <a class="brand" href="../index.html"><b>HAJAR</b><span>/</span><b>ELYOUSFI</b></a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#stack">Stack</a></li>
+      <li><a href="../index.html#cv">CV</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta magnetic" href="../assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2_FR.pdf" target="_blank" rel="noopener">Download CV</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="container">
+    <a class="cs-back" href="../index.html#work">Back to portfolio</a>
+    <p class="cs-kicker">CASE STUDY 02 · PFA 2026 · EDGE AI · COMPUTER VISION</p>
+    <h1>Intelligent Intrusion Detection Camera</h1>
+    <p class="cs-sub">A person-detection camera running entirely on a Raspberry Pi 4 — YOLOv8n for perception, 3-level alert logic and MQTT for integration.</p>
+    <div class="cs-meta">
+      <span class="chip">Raspberry Pi 4</span><span class="chip">YOLOv8n</span><span class="chip">OpenCV</span><span class="chip">MQTT</span><span class="chip">GPIO</span>
+    </div>
+  </div>
+</header>
+
+<div class="container cs-layout">
+  <aside class="cs-toc" aria-label="Sections">
+    <p>CONTENTS</p>
+    <a href="#problem">01 · Problem</a>
+    <a href="#context">02 · Context</a>
+    <a href="#architecture">03 · Architecture</a>
+    <a href="#methodology">04 · Methodology</a>
+    <a href="#implementation">05 · Implementation</a>
+    <a href="#results">06 · Results</a>
+    <a href="#lessons">07 · Lessons learned</a>
+    <a href="#future">08 · Future improvements</a>
+  </aside>
+
+  <div class="cs-content">
+    <section class="cs-sec" id="problem">
+      <h2><span class="cs-n">01</span>Problem</h2>
+      <p>Classical motion-based intrusion cameras drown in false alarms — any moving shadow triggers them. The project goal was a camera that detects <strong>people specifically</strong>, runs on a <strong>budget edge board</strong>, and alerts with <strong>three severity levels</strong> instead of a binary signal.</p>
+    </section>
+
+    <section class="cs-sec" id="context">
+      <h2><span class="cs-n">02</span>Context</h2>
+      <p>Delivered as a 2026 PFA internship. Constraints: one Raspberry Pi 4, USB camera, no GPU, low latency, and clean integration with existing device ecosystems via <strong>MQTT</strong>.</p>
+      <ul>
+        <li>Edge-only inference — no cloud round-trip.</li>
+        <li>Alerting on three levels: detect → confirm → escalate.</li>
+        <li>Physical actuation through GPIO (LED / buzzer).</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="architecture">
+      <h2><span class="cs-n">03</span>Architecture</h2>
+      <div class="cs-diagram">
+        <p class="cd-label">PIPELINE (ON-DEVICE)</p>
+        <svg viewBox="0 0 540 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="monospace" font-size="10.5">
+            <rect x="30" y="60" width="100" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="80" y="81" text-anchor="middle" fill="var(--dim)">frame</text>
+            <line x1="130" y1="77" x2="168" y2="77" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="172" y="60" width="116" height="34" rx="8" stroke="var(--accent)" stroke-width="1.4"/>
+            <text x="230" y="81" text-anchor="middle" fill="var(--accent)">YOLOv8n</text>
+            <line x1="288" y1="77" x2="326" y2="77" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="330" y="60" width="88" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="374" y="81" text-anchor="middle" fill="var(--dim)">confidence</text>
+            <line x1="418" y1="77" x2="456" y2="77" stroke="var(--violet)" stroke-opacity="0.7"/>
+            <rect x="460" y="60" width="52" height="34" rx="8" stroke="var(--violet)" stroke-width="1.2"/>
+            <text x="486" y="81" text-anchor="middle" fill="var(--violet)">level</text>
+            <rect x="172" y="126" width="116" height="26" rx="7" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="230" y="143" text-anchor="middle" fill="var(--dim)">GPIO alert</text>
+            <rect x="460" y="126" width="52" height="26" rx="7" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="486" y="143" text-anchor="middle" fill="var(--dim)">MQTT</text>
+            <line x1="230" y1="94" x2="230" y2="124" stroke="var(--accent)" stroke-opacity="0.4"/>
+            <line x1="486" y1="94" x2="486" y2="124" stroke="var(--accent)" stroke-opacity="0.4"/>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="cs-sec" id="methodology">
+      <h2><span class="cs-n">04</span>Methodology</h2>
+      <ul>
+        <li><strong>Model:</strong> YOLOv8n — chosen for CPU-friendly inference on the Pi 4.</li>
+        <li><strong>Logic:</strong> confidence thresholds mapped to 3 alert levels, debounced over time to avoid flicker.</li>
+        <li><strong>Outputs:</strong> GPIO (LED / buzzer) for local actuation + MQTT topic for remote dashboards.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="implementation">
+      <h2><span class="cs-n">05</span>Implementation</h2>
+      <ul>
+        <li>Python + OpenCV capture loop piped into the YOLOv8n detector.</li>
+        <li>Cooldown and escalation state machine for the alert levels.</li>
+        <li>MQTT broker publishing detection events with level and timestamp.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="results">
+      <h2><span class="cs-n">06</span>Results</h2>
+      <div class="cs-stats">
+        <div class="cs-stat"><b>3-level</b><span>alert escalation on-device</span></div>
+        <div class="cs-stat"><b>Edge</b><span>zero cloud dependency</span></div>
+        <div class="cs-stat"><b>MQTT</b><span>clean device integration</span></div>
+      </div>
+      <p>Person-specific detection eliminated the false-alarm problem of classic motion sensors, and the 3-level logic gave operators meaningful escalation instead of a binary beep.</p>
+    </section>
+
+    <section class="cs-sec" id="lessons">
+      <h2><span class="cs-n">07</span>Lessons learned</h2>
+      <ul>
+        <li>Model choice is a latency/accuracy trade — nano-scale YOLO is what makes edge feasible.</li>
+        <li>State machines matter more than models in alert UX: debounce, cooldown, escalation.</li>
+        <li>MQTT decouples the camera from its consumers — one device, many dashboards.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="future">
+      <h2><span class="cs-n">08</span>Future improvements</h2>
+      <ul>
+        <li>Message queues and camera motion compensation for multi-camera sites.</li>
+        <li>Privacy-aware anonymization of frames before any off-device sync.</li>
+        <li>Model quantization (INT8) to push frames-per-second even higher.</li>
+      </ul>
+    </section>
+
+    <nav class="cs-nav" aria-label="Next case study">
+      <a href="ai-safe-drive.html"><span>Next case study</span><b>AI Safe Drive Guardian →</b></a>
+      <a href="../index.html#work"><span>Back to</span><b>All selected work</b></a>
+    </nav>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© 2026 EL YOUSFI Hajar</p>
+    <p><a href="#top">Back to top ↑</a></p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

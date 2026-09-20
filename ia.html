@@ -1,262 +1,319 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EL YOUSFI Hajar — Systèmes Embarqués &amp; Intelligence Artificielle | Portfolio</title>
-<meta name="description" content="EL YOUSFI Hajar — profil Systèmes Embarqués & IA : vision embarquée YOLOv8, ADAS, IA industrielle, IoT temps réel. Stage PFE février 2027.">
-<meta property="og:title" content="EL YOUSFI Hajar — Systèmes Embarqués & IA">
-<meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%237c3aed'/><text x='50' y='70' font-size='52' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>H</text></svg>">
+<title>EL YOUSFI Hajar — AI &amp; Embedded Systems | Computer Vision · Edge AI</title>
+<meta name="description" content="EL YOUSFI Hajar — AI & Embedded direction: computer vision, edge AI on Raspberry Pi, real-time systems and industrial intelligence. 6-month PFE from February 2027.">
+<meta property="og:title" content="EL YOUSFI Hajar — AI & Embedded Systems">
+<meta property="og:description" content="Computer vision, edge AI, real-time embedded systems — M2 ISERT, FSTM.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://hajar-mythos7.github.io/ia.html">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050505'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' text-anchor='middle' fill='%238b5cf6'%3EH%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="ai">
+<body class="type-ai">
 
-<nav class="nav" id="nav">
-  <div class="nav-inner">
-    <a class="brand" href="index.html"><span class="brand-mark">H</span>EL YOUSFI</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a class="profile" href="index.html">Généraliste</a></li>
-      <li><a class="profile" href="telecom.html">Télécoms</a></li>
-      <li><a class="profile active" href="ia.html">IA &amp; Embarqué</a></li>
-      <li><a href="#about">À propos</a></li>
-      <li><a href="#projects">Projets</a></li>
+<nav class="nav" id="nav" aria-label="Primary">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html"><b>HAJAR</b><span>/</span><b>ELYOUSFI</b></a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#stack">Stack</a></li>
       <li><a href="#cv">CV</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta magnetic" href="assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2_FR.pdf" target="_blank" rel="noopener">Download CV</a></li>
     </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
 <header class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-glow g1"></div>
-  <div class="hero-glow g2"></div>
-  <div class="hero-glow g3"></div>
-  <canvas class="hero-canvas" id="net"></canvas>
-
-  <div class="hero-inner">
-    <div class="hero-avatar">H</div>
-    <p class="hero-eyebrow"><span class="dot"></span> Stage PFE · disponible dès février 2027</p>
-    <h1>EL YOUSFI <span class="hi">Hajar</span></h1>
-    <p class="hero-title">Étudiante ingénieure M2 — Systèmes Embarqués &amp; Intelligence Artificielle</p>
-    <p class="hero-sub">Vision embarquée (YOLOv8), ADAS, IA industrielle, IoT temps réel — ISERT, FSTM</p>
-    <div class="hero-cta">
-      <a class="btn btn-light" href="assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2_FR.pdf" target="_blank">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
-        CV PDF
-      </a>
-      <a class="btn btn-ghost" href="#projects">Voir mes projets</a>
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div>
+      <p class="hero-tag">M2 ISERT &middot; EMBEDDED SYSTEMS &middot; AI &middot; COMPUTER VISION</p>
+      <h1>Embedded intelligence,<br><span class="grad">from pixels to decisions.</span></h1>
+      <p class="hero-sub"><strong>Computer vision</strong>, real-time inference on edge hardware and industrial AI — building systems that decide in milliseconds, on-device.</p>
+      <div class="hero-id">
+        <span class="h-name">EL YOUSFI Hajar</span>
+        <span class="h-role">Master 2 ISERT — FSTM</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn--solid magnetic" href="#work">View selected work</a>
+        <a class="btn btn--ghost magnetic" href="assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2_FR.pdf" target="_blank" rel="noopener">Download CV</a>
+      </div>
+      <p class="hero-available"><i aria-hidden="true"></i> Available for 6-month PFE &middot; Feb 2027</p>
     </div>
-    <div class="hero-contact">
-      <a href="tel:+212669481992"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>0669 481 992</a>
-      <a href="mailto:hajarbrave3@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>hajarbrave3@gmail.com</a>
-      <a href="https://linkedin.com/in/hajar-elyousfi" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
-    </div>
-  </div>
 
-  <div class="hero-glass">
-    <div class="stat"><b>91 %</b><span>EAR somnolence</span></div>
-    <div class="stat"><b>93 %</b><span>détection @ 37 FPS CPU</span></div>
-    <div class="stat"><b>60</b><span>anomalies OCP signalées</span></div>
-    <div class="stat"><b>YOLOv8n</b><span>inférence embarquée</span></div>
+    <div class="hero-visual" aria-hidden="true">
+      <canvas id="heroCanvas"></canvas>
+      <div class="pipeline">
+        <div class="stage">
+          <span class="st-num">01</span>
+          <div><h3>SENSOR</h3><p>frame · telemetry · signal</p></div>
+        </div>
+        <div class="stage-rail"></div>
+        <div class="stage stage--ai">
+          <span class="st-num">02</span>
+          <div><h3>VISION</h3><p>YOLOv8 · OpenCV · CNN</p></div>
+        </div>
+        <div class="stage-rail"></div>
+        <div class="stage">
+          <span class="st-num">03</span>
+          <div><h3>MODEL</h3><p>LSTM · GRU · RL · anomaly</p></div>
+        </div>
+        <div class="stage-rail"></div>
+        <div class="stage stage--sys">
+          <span class="st-num">04</span>
+          <div><h3>SYSTEM</h3><p>edge · real-time · actuation</p></div>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span>YOLO v8</span><span>OpenCV</span><span>PyTorch</span><span>MQTT</span><span>Python</span><span>CNN</span><span>Raspberry Pi</span><span>SCADA</span><span>IoT</span><span>FastAPI</span><span>Edge AI</span><span>LSTM</span>
-    <span>YOLO v8</span><span>OpenCV</span><span>PyTorch</span><span>MQTT</span><span>Python</span><span>CNN</span><span>Raspberry Pi</span><span>SCADA</span><span>IoT</span><span>FastAPI</span><span>Edge AI</span><span>LSTM</span>
+<section class="trust" aria-label="Profile highlights">
+  <div class="container trust-row">
+    <span>Computer Vision</span>
+    <span>Edge AI</span>
+    <span>Real-time Systems</span>
+    <span>Industrial AI</span>
+    <span>IoT</span>
+    <span>Embedded Linux</span>
   </div>
-</div>
+</section>
+
+<section class="section section--tight" aria-label="Key metrics">
+  <div class="container">
+    <div class="metrics">
+      <div class="metric reveal"><b>37 FPS</b><span>real-time inference on CPU — no GPU</span></div>
+      <div class="metric reveal"><b>91% <small>EAR</small></b><span>drowsiness detection — Safe Drive Guardian</span></div>
+      <div class="metric reveal"><b>93%</b><span>phone-use detection accuracy</span></div>
+      <div class="metric reveal"><b>60</b><span>anomalies flagged — OCP plant monitoring</span></div>
+    </div>
+  </div>
+</section>
 
 <main>
-  <section class="section" id="about">
+  <section class="section" id="work">
     <div class="container">
-      <span class="eyebrow">À propos</span>
-      <h2 class="section-title reveal">Vision embarquée &amp; IA en conditions réelles</h2>
-      <div class="about-grid">
-        <div class="about-copy reveal">
-          <p>
-            Étudiante ingénieure M2 ISERT (FSTM), orientée <strong>systèmes embarqués + IA</strong> : vision embarquée
-            (OpenCV, YOLOv8), <strong>ADAS</strong>, <strong>IA industrielle</strong> et <strong>IoT temps réel</strong>.
-            Des projets déployés sur matériel réel : caméra Raspberry Pi, prototype ADAS à 37 FPS CPU, supervision OCP en production.
-          </p>
-          <p>
-            Rigoureuse et guidée par l'innovation, je recherche un <strong>stage PFE de 6 mois</strong> en
-            <strong>systèmes embarqués / intelligence artificielle</strong> à partir de février 2027 (Casablanca / Rabat).
-          </p>
-          <div class="about-chip">
-            <span class="tag">Innovation</span><span class="tag">Prototypage</span><span class="tag">Efficacité</span><span class="tag">Anglais technique</span>
+      <div class="section-head reveal">
+        <p class="eyebrow">Selected work</p>
+        <h2>Sensors, models, decisions.</h2>
+        <p>Full pipelines from pixel to actuation, validated on real hardware.</p>
+      </div>
+      <div class="work-grid">
+        <article class="work-card work-card--featured reveal" style="--i:0">
+          <div class="work-body">
+            <p class="work-meta">2026 · PFA / EDGE AI</p>
+            <p class="work-num">01</p>
+            <h3>Intelligent Intrusion Detection Camera</h3>
+            <p>Real-time person detection on a Raspberry Pi 4 — YOLOv8n, 3-level alert logic and MQTT publishing for edge monitoring.</p>
+            <div class="work-tech">
+              <span class="chip">Raspberry Pi 4</span><span class="chip">YOLOv8n</span><span class="chip">OpenCV</span><span class="chip">MQTT</span><span class="chip">GPIO</span>
+            </div>
+            <div class="work-impact">
+              <span><b>Edge</b> · real-time · alerting</span>
+              <a class="text-link" href="case-studies/intrusion-camera.html">View case study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+            </div>
           </div>
+          <div class="work-visual" aria-hidden="true">
+            <svg viewBox="0 0 320 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="vf" stroke="var(--accent)" stroke-width="1.4" d="M96 116c0-9 9-14 18-14h92c9 0 18 5 18 14v72c0 9-9 14-18 14h-92c-9 0-18-5-18-14z"/>
+              <path class="vg" stroke="var(--dim)" stroke-width="1.2" d="M132 102l-14-22M188 102l14-22"/>
+              <rect class="vf" stroke="var(--accent)" stroke-width="1.2" x="132" y="132" width="56" height="40" stroke-dasharray="4 4"/>
+              <g class="vg" stroke="var(--dim)" stroke-width="1.2">
+                <path d="M230 78a80 80 0 0 1 12 20M238 52a110 110 0 0 1 20 38"/>
+              </g>
+              <circle class="vf" cx="160" cy="152" r="3" fill="var(--accent)" opacity="0.9"/>
+              <circle class="vg" cx="250" cy="206" r="4" stroke-width="1.2"/>
+              <path class="vg" stroke="var(--dim)" stroke-width="1.2" d="M250 206v-40"/>
+            </svg>
+          </div>
+        </article>
+
+        <article class="work-card reveal" style="--i:1">
+          <div class="work-body">
+            <p class="work-meta">2026 · PROJECT</p>
+            <p class="work-num">02</p>
+            <h3>AI Safe Drive Guardian</h3>
+            <p>Localized ADAS: drowsiness (EAR), phone-use detection, CLAHE night driving and darija alerts with Twilio SMS.</p>
+            <div class="work-tech">
+              <span class="chip">YOLOv8</span><span class="chip">OpenCV</span><span class="chip">Dlib</span><span class="chip">Python</span><span class="chip">Twilio</span>
+            </div>
+            <div class="work-impact">
+              <span><b>91%</b> EAR · <b>37 FPS</b> · CPU</span>
+              <a class="text-link" href="case-studies/ai-safe-drive.html">Case study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+            </div>
+          </div>
+          <div class="work-visual" aria-hidden="true">
+            <svg viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="vg" stroke="var(--dim)" stroke-width="2" stroke-linecap="round" d="M120 238c26-40 22-80 22-120s4-60-22-96"/>
+              <path class="vg" stroke="var(--dim)" stroke-width="2" stroke-linecap="round" d="M200 238c-26-40-22-80-22-120s-4-60 22-96"/>
+              <path class="vf" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="3 5" d="M160 238V22"/>
+              <rect class="vf" stroke="var(--accent)" stroke-width="1.4" x="126" y="128" width="68" height="40" rx="8"/>
+              <polygon class="vf" stroke="var(--accent)" stroke-width="1.3" fill="none" points="282,54 268,86 296,86"/>
+              <line class="vf" stroke="var(--accent)" stroke-width="1.3" x1="282" y1="86" x2="282" y2="100"/>
+            </svg>
+          </div>
+        </article>
+
+        <article class="work-card reveal" style="--i:2">
+          <div class="work-body">
+            <p class="work-meta">2026 · PROJECT</p>
+            <p class="work-num">03</p>
+            <h3>Smart Monitoring — OCP Khouribga</h3>
+            <p>Isolation-Forest anomaly detection over 171 daily measures of a water-treatment plant — 60 anomalies flagged.</p>
+            <div class="work-tech">
+              <span class="chip">Isolation Forest</span><span class="chip">NumPy</span><span class="chip">Pandas</span>
+            </div>
+            <div class="work-impact">
+              <span><b>60</b> anomalies · industry</span>
+              <a class="text-link" href="index.html#work">Overview <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+            </div>
+          </div>
+          <div class="work-visual" aria-hidden="true">
+            <svg viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g class="vg" stroke="var(--dim)" stroke-width="1">
+                <polyline points="40,180 90,150 140,160 190,120 240,130 290,84" stroke-width="1.4" style="stroke-width:1"/>
+                <line x1="40" y1="80" x2="40" y2="200"/><line x1="40" y1="200" x2="290" y2="200"/>
+              </g>
+              <g class="vf" stroke="var(--accent)" stroke-width="1.4">
+                <circle cx="240" cy="130" r="4" fill="var(--accent)" opacity="0.95"/>
+                <circle cx="290" cy="84" r="4" fill="var(--accent)" opacity="0.95"/>
+                <circle cx="90" cy="150" r="3.5" fill="var(--accent)" opacity="0.7"/>
+              </g>
+              <text x="240" y="106" text-anchor="middle" fill="var(--violet)" font-family="monospace" font-size="10">outlier</text>
+            </svg>
+          </div>
+        </article>
+
+        <article class="work-card work-card--wide reveal" style="--i:3">
+          <div class="work-body">
+            <p class="work-meta">2026 · PROJECT · REAL-TIME WEB</p>
+            <p class="work-num">04</p>
+            <h3>WebSCADA Pro</h3>
+            <p>Real-time industrial supervision front-end streaming telemetry at &lt;15 ms.</p>
+            <div class="work-tech">
+              <span class="chip">React</span><span class="chip">Socket.io</span><span class="chip">InfluxDB</span>
+            </div>
+            <div class="work-impact">
+              <span><b>&lt;15 ms</b> latency</span>
+              <a class="text-link" href="case-studies/webscada.html">Case study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+            </div>
+          </div>
+          <div class="work-visual" aria-hidden="true">
+            <svg viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g class="vg" stroke="var(--dim)" stroke-width="1">
+                <line x1="40" y1="40" x2="40" y2="200"/><line x1="40" y1="200" x2="290" y2="200"/>
+              </g>
+              <polyline class="vf" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" points="58,170 96,164 132,146 168,152 204,128 244,118 284,92"/>
+              <circle class="vf" cx="284" cy="92" r="4" fill="var(--accent)" stroke-width="1.2"/>
+            </svg>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="stack">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Engineering stack</p>
+        <h2>Embedded + AI, end to end.</h2>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-cell stack-cell--big reveal" style="--i:0">
+          <p class="sc-tag">01 · AI / ML</p>
+          <h3>Prediction &amp; optimization</h3>
+          <div class="sc-items"><span class="chip">Python</span><span class="chip">PyTorch</span><span class="chip">NumPy</span><span class="chip">Pandas</span><span class="chip">LSTM</span><span class="chip">GRU</span><span class="chip">PPO</span><span class="chip">scikit-learn</span></div>
         </div>
-        <ul class="timeline reveal">
-          <li>
-            <span class="tl-year">2025 — 2027</span>
-            <div class="tl-title">Master ISERT — M2</div>
-            <p>Systèmes embarqués, vision, IA appliquée.</p>
-          </li>
-          <li>
-            <span class="tl-year">2024 — 2025</span>
-            <div class="tl-title">Licence IRM</div>
-            <p>Informatique et Réseaux Multimédia.</p>
-          </li>
-          <li>
-            <span class="tl-year">Juïl. 2026</span>
-            <div class="tl-title">Stage PFA — Vision embarquée</div>
-            <p>Caméra de détection d'intrusion, YOLOv8n.</p>
-          </li>
-          <li>
-            <span class="tl-year">2025</span>
-            <div class="tl-title">Deep learning — Licence</div>
-            <p>Classification d'images, filtrage adaptatif.</p>
-          </li>
-        </ul>
+        <div class="stack-cell stack-cell--mid reveal" style="--i:1">
+          <p class="sc-tag">02 · COMPUTER VISION</p>
+          <h3>Perception on edge</h3>
+          <div class="sc-items"><span class="chip">OpenCV</span><span class="chip">YOLOv8</span><span class="chip">Dlib</span><span class="chip">CNN</span></div>
+        </div>
+        <div class="stack-cell stack-cell--third reveal" style="--i:2">
+          <p class="sc-tag">03 · EMBEDDED</p>
+          <h3>Hardware close</h3>
+          <div class="sc-items"><span class="chip">C / C++</span><span class="chip">Raspberry Pi</span><span class="chip">GPIO</span><span class="chip">Proteus</span></div>
+        </div>
+        <div class="stack-cell stack-cell--third reveal" style="--i:3">
+          <p class="sc-tag">04 · REAL-TIME</p>
+          <h3>Latency-aware systems</h3>
+          <div class="sc-items"><span class="chip">MQTT</span><span class="chip">WebSocket</span><span class="chip">FastAPI</span><span class="chip">SCADA</span></div>
+        </div>
+        <div class="stack-cell stack-cell--third reveal" style="--i:4">
+          <p class="sc-tag">05 · SOFTWARE</p>
+          <h3>Full-stack delivery</h3>
+          <div class="sc-items"><span class="chip">React.js</span><span class="chip">Spring Boot</span><span class="chip">SQL</span></div>
+        </div>
+        <div class="stack-cell stack-cell--full reveal" style="--i:5">
+          <p class="sc-tag">06 · TOOLS</p>
+          <div class="sc-items"><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Figma</span><span class="chip">MATLAB</span></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section section-soft" id="skills">
+  <section class="section" id="cv">
     <div class="container">
-      <span class="eyebrow">Compétences</span>
-      <h2 class="section-title reveal">Stack embarqué &amp; IA</h2>
-      <div class="skills-grid">
-        <div class="skill-card reveal"><div class="sc-icon">⚙️</div><h3>Systèmes embarqués</h3><p>C, C++, Raspberry Pi, GPIO, capteurs, PROTEUS.</p><div class="tags"><span class="tag">C++</span><span class="tag">Raspberry Pi</span></div></div>
-        <div class="skill-card reveal"><div class="sc-icon">👁️</div><h3>Vision &amp; deep learning embarqué</h3><p>OpenCV, YOLOv8, Dlib, CNN, Raspberry Pi 4.</p><div class="tags"><span class="tag">YOLO v8</span><span class="tag">OpenCV</span></div></div>
-        <div class="skill-card reveal"><div class="sc-icon">🔌</div><h3>IoT &amp; temps réel</h3><p>MQTT, WebSocket, FastAPI, SCADA, alarmes.</p><div class="tags"><span class="tag">MQTT</span><span class="tag">WebSocket</span></div></div>
-        <div class="skill-card reveal"><div class="sc-icon">🧠</div><h3>IA &amp; data</h3><p>Python, PyTorch, scikit-learn, Isolation Forest, LSTM/GRU, PPO.</p><div class="tags"><span class="tag">PyTorch</span><span class="tag">Python</span></div></div>
-        <div class="skill-card reveal"><div class="sc-icon">💻</div><h3>Développement</h3><p>React.js, Spring Boot, Java, SQL, Git, UML, Figma.</p><div class="tags"><span class="tag">Web</span><span class="tag">Git</span></div></div>
-        <div class="skill-card reveal"><div class="sc-icon">📡</div><h3>Télécoms (contexte)</h3><p>MATLAB, chaîne CDMA, mélangeur RF 2,4 GHz.</p><div class="tags"><span class="tag">MATLAB</span><span class="tag">Signal</span></div></div>
+      <div class="section-head reveal">
+        <p class="eyebrow">Curriculum Vitae</p>
+        <h2>AI &amp; embedded direction.</h2>
       </div>
-    </div>
-  </section>
-
-  <section class="section" id="projects">
-    <div class="container">
-      <span class="eyebrow">Réalisations</span>
-      <h2 class="section-title reveal">Projets IA &amp; embarqués</h2>
-      <div class="filters reveal">
-        <button class="filter active" data-filter="all">Tous</button>
-        <button class="filter" data-filter="stage">Stage PFA</button>
-        <button class="filter" data-filter="projet">Projets</button>
-        <button class="filter" data-filter="licence">Licence</button>
-      </div>
-      <div class="projects-grid">
-        <article class="card reveal" data-cat="stage">
-          <p class="card-tag">Stage PFA · 2026</p>
-          <h3>Caméra intelligente de détection d'intrusion</h3>
-          <p class="card-tech">Raspberry Pi 4 · YOLOv8n · MQTT · GPIO</p>
-          <p>Détection de personnes temps réel : alertes à 3 niveaux, LED / buzzer et publication MQTT.</p>
-          <div class="tags"><span class="tag">Edge</span><span class="tag">Vidéo</span></div>
-        </article>
-        <article class="card reveal" data-cat="projet">
-          <p class="card-tag">Projet · 2026</p>
-          <h3>AI Safe Drive Guardian — ADAS localisé Maroc</h3>
-          <p class="card-tech">Python · OpenCV · Dlib · YOLOv8n · Twilio</p>
-          <p>Somnolence (EAR 91 %), usage du téléphone (93 % @ 37 FPS CPU), CLAHE nocturne, alertes en darija + SMS.</p>
-          <div class="tags"><span class="tag">ADAS</span><span class="tag">Edge</span></div>
-        </article>
-        <article class="card reveal" data-cat="projet">
-          <p class="card-tag">Projet · 2026</p>
-          <h3>Smart Monitoring STEP OCP Khouribga</h3>
-          <p class="card-tech">Python · NumPy · Pandas · Isolation Forest</p>
-          <p>171 mesures journalières d'une station de traitement des eaux OCP : 60 anomalies signalées.</p>
-          <div class="tags"><span class="tag">IA</span><span class="tag">Industrie</span></div>
-        </article>
-        <article class="card reveal" data-cat="projet">
-          <p class="card-tag">Projet · 2026</p>
-          <h3>WebSCADA Pro — Supervision industrielle</h3>
-          <p class="card-tech">React.js · Node.js · Socket.io · InfluxDB</p>
-          <p>SCADA web temps réel : synoptique SVG, alarmes 3 niveaux, tendances 24 h et OEE (latence &lt; 15 ms).</p>
-          <div class="tags"><span class="tag">Temps réel</span><span class="tag">Web</span></div>
-        </article>
-        <article class="card reveal" data-cat="licence">
-          <p class="card-tag">Licence · 2025</p>
-          <h3>Classification d'images par classe</h3>
-          <p class="card-tech">Python · Deep Learning</p>
-          <p>Modèle de classification d'images : prétraitement, entraînement et visualisation des performances.</p>
-          <div class="tags"><span class="tag">CNN</span><span class="tag">Deep Learning</span></div>
-        </article>
-        <article class="card reveal" data-cat="licence">
-          <p class="card-tag">Licence · 2025</p>
-          <h3>Identification de systèmes inconnus</h3>
-          <p class="card-tech">Traitement du signal · Filtrage adaptatif</p>
-          <p>Identification de systèmes inconnus via filtrage adaptatif ; implémentation et validation.</p>
-          <div class="tags"><span class="tag">Signal</span><span class="tag">Algo</span></div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-soft" id="cv">
-    <div class="container">
-      <span class="eyebrow">Curriculum Vitae</span>
-      <h2 class="section-title reveal">CV Systèmes Embarqués &amp; IA</h2>
-      <p class="section-lead reveal">Une page, ciblée embarqué / intelligence artificielle.</p>
-      <div class="cv-grid">
-        <div class="cv-card reveal">
-          <div class="cv-icon">👁️</div>
-          <h3>CV Systèmes Embarqués &amp; IA</h3>
-          <p>Vision embarquée (YOLOv8), ADAS, IA industrielle, IoT temps réel.</p>
-          <div class="cv-btns">
-            <a class="btn btn-solid" href="assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2_FR.pdf" target="_blank">Version FR</a>
-            <a class="btn btn-soft" href="assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2.pdf" target="_blank">English version</a>
+      <div class="profiles">
+        <div class="profile-card reveal" style="--i:0">
+          <p class="pc-num">CV · AI &amp; EMBEDDED</p>
+          <h3>Pixels to systems</h3>
+          <p>Computer vision, edge AI, real-time embedded systems and industrial AI — one page, targeted Embedded/AI PFE roles.</p>
+          <div class="pc-actions">
+            <a class="btn btn--ghost btn--sm magnetic" href="assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2_FR.pdf" target="_blank" rel="noopener">Download PDF (FR)</a>
+            <a class="text-link" href="assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2.pdf" target="_blank" rel="noopener">English version <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
           </div>
         </div>
       </div>
       <div class="certs reveal">
-        <h3 class="certs-title">Certifications</h3>
-        <ul class="certs-list">
-          <li>Claude AI — Anthropic</li>
-          <li>CCNA Network Security — Cisco</li>
-          <li>Network Defense — Cisco</li>
-        </ul>
+        <h3>Certifications</h3>
+        <div class="certs-grid">
+          <div class="cert"><span class="c-mark">A</span><div><b>Claude AI</b><span>Anthropic</span></div></div>
+          <div class="cert"><span class="c-mark">C</span><div><b>CCNA Network Security</b><span>Cisco</span></div></div>
+          <div class="cert"><span class="c-mark">C</span><div><b>Network Defense</b><span>Cisco</span></div></div>
+          <div class="cert"><span class="c-mark">P</span><div><b>Python · Deep learning</b><span>Coursework</span></div></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="contact">
+  <section class="section contact" id="contact">
     <div class="container">
-      <span class="eyebrow">Contact</span>
-      <h2 class="section-title reveal">Parlons de votre projet</h2>
-      <p class="section-lead reveal">Stage PFE embarqué / IA, candidature ou collaboration.</p>
-      <div class="contact-grid">
-        <a class="contact-item reveal" href="tel:+212669481992">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <div><strong>Téléphone</strong><span>+212 669 481 992</span></div>
-        </a>
-        <a class="contact-item reveal" href="mailto:hajarbrave3@gmail.com">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          <div><strong>Email</strong><span>hajarbrave3@gmail.com</span></div>
-        </a>
-        <a class="contact-item reveal" href="https://linkedin.com/in/hajar-elyousfi" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          <div><strong>LinkedIn</strong><span>linkedin.com/in/hajar-elyousfi</span></div>
-        </a>
-        <a class="contact-item reveal" href="https://github.com/Hajar-mythos7" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.66-.22.66-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.16.58.67.48A10 10 0 0 0 22 12 10 10 0 0 0 12 2z"/></svg>
-          <div><strong>GitHub</strong><span>github.com/Hajar-mythos7</span></div>
-        </a>
+      <h2 class="reveal">Let's build intelligent, real-time systems.</h2>
+      <p class="c-sub reveal">Open to a 6-month PFE starting February 2027 — Casablanca / Rabat.</p>
+      <div class="hero-cta reveal" style="justify-content:center">
+        <a class="btn btn--solid magnetic" href="mailto:hajarbrave3@gmail.com">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:hajarbrave3@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Email</a>
+        <a href="https://linkedin.com/in/hajar-elyousfi" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+        <a href="index.html"><span>←</span>All profiles</a>
       </div>
     </div>
   </section>
 </main>
 
 <footer class="footer">
-  <div class="container">
-    <p class="footer-top">© 2026 EL YOUSFI Hajar — <a href="index.html">Profil généraliste</a> · <a href="telecom.html">Télécoms &amp; Réseaux</a></p>
-    <p>Stage PFE de 6 mois à partir de février 2027 — Casablanca / Rabat</p>
+  <div class="container footer-inner">
+    <p>© 2026 EL YOUSFI Hajar</p>
+    <p><a href="#top">Back to top ↑</a></p>
   </div>
 </footer>
-
-<button class="to-top" id="toTop" aria-label="Haut de page">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
-</button>
 
 <script src="js/main.js"></script>
 </body>

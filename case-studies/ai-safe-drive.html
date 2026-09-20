@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Safe Drive Guardian — Case Study | EL YOUSFI Hajar</title>
+<meta name="description" content="Case study: a Morocco-localized ADAS prototype — drowsiness (EAR 91%) and phone-use detection (93% at 37 FPS on CPU), night driving, darija alerts and SMS.">
+<meta property="og:title" content="AI Safe Drive Guardian — Case Study">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050505'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' text-anchor='middle' fill='%2357b8ff'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Primary">
+  <div class="container nav-inner">
+    <a class="brand" href="../index.html"><b>HAJAR</b><span>/</span><b>ELYOUSFI</b></a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#stack">Stack</a></li>
+      <li><a href="../index.html#cv">CV</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta magnetic" href="../assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2_FR.pdf" target="_blank" rel="noopener">Download CV</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="container">
+    <a class="cs-back" href="../index.html#work">Back to portfolio</a>
+    <p class="cs-kicker">CASE STUDY 03 · ADAS · COMPUTER VISION · EDGE</p>
+    <h1>AI Safe Drive Guardian</h1>
+    <p class="cs-sub">A Morocco-localized ADAS prototype: drowsiness detection via EAR, phone-use detection with YOLOv8n at 37 FPS on CPU, night-driving enhancement and dalam — voice + SMS.</p>
+    <div class="cs-meta">
+      <span class="chip">YOLOv8</span><span class="chip">OpenCV</span><span class="chip">Dlib</span><span class="chip">Python</span><span class="chip">Twilio</span>
+    </div>
+  </div>
+</header>
+
+<div class="container cs-layout">
+  <aside class="cs-toc" aria-label="Sections">
+    <p>CONTENTS</p>
+    <a href="#problem">01 · Problem</a>
+    <a href="#context">02 · Context</a>
+    <a href="#architecture">03 · Architecture</a>
+    <a href="#methodology">04 · Methodology</a>
+    <a href="#implementation">05 · Implementation</a>
+    <a href="#results">06 · Results</a>
+    <a href="#lessons">07 · Lessons learned</a>
+    <a href="#future">08 · Future improvements</a>
+  </aside>
+
+  <div class="cs-content">
+    <section class="cs-sec" id="problem">
+      <h2><span class="cs-n">01</span>Problem</h2>
+      <p>Driver drowsiness and phone use are leading causes of road accidents — yet many safety systems need expensive hardware. The goal: a <strong>camera-based ADAS</strong> that runs on a standard computer, works at <strong>night</strong>, and alerts in the <strong>driver's own language</strong>.</p>
+    </section>
+
+    <section class="cs-sec" id="context">
+      <h2><span class="cs-n">02</span>Context</h2>
+      <p>A 2026 project with a real constraint: no GPU, no proprietary SDK — pure Python + OpenCV + Dlib + YOLOv8 on CPU. Localization mattered: alerts in Moroccan darija and an SMS fallback for critical events.</p>
+    </section>
+
+    <section class="cs-sec" id="architecture">
+      <h2><span class="cs-n">03</span>Architecture</h2>
+      <div class="cs-diagram">
+        <p class="cd-label">DETECTION PIPELINE</p>
+        <svg viewBox="0 0 540 176" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="monospace" font-size="10.5">
+            <rect x="30" y="58" width="86" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="73" y="79" text-anchor="middle" fill="var(--dim)">frame</text>
+            <line x1="116" y1="75" x2="152" y2="75" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="156" y="58" width="96" height="34" rx="8" stroke="var(--accent)" stroke-width="1.4"/>
+            <text x="204" y="79" text-anchor="middle" fill="var(--accent)">CLAHE night</text>
+            <line x1="252" y1="75" x2="288" y2="75" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="292" y="58" width="110" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="347" y="79" text-anchor="middle" fill="var(--dim)">Dlib landmarks</text>
+            <line x1="402" y1="75" x2="438" y2="75" stroke="var(--violet)" stroke-opacity="0.7"/>
+            <rect x="442" y="58" width="72" height="34" rx="8" stroke="var(--violet)" stroke-width="1.2"/>
+            <text x="478" y="79" text-anchor="middle" fill="var(--violet)">EAR</text>
+            <rect x="156" y="124" width="96" height="26" rx="7" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="204" y="141" text-anchor="middle" fill="var(--dim)">YOLOv8 phone</text>
+            <rect x="442" y="124" width="72" height="26" rx="7" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="478" y="141" text-anchor="middle" fill="var(--dim)">alert</text>
+            <line x1="204" y1="92" x2="204" y2="122" stroke="var(--accent)" stroke-opacity="0.4"/>
+            <line x1="478" y1="92" x2="478" y2="122" stroke="var(--accent)" stroke-opacity="0.4"/>
+          </g>
+        </svg>
+      </div>
+      <p>Two parallel tracks feed one alert engine: <strong>drowsiness</strong> (landmarks → EAR) and <strong>phone use</strong> (YOLOv8 object detection).</p>
+    </section>
+
+    <section class="cs-sec" id="methodology">
+      <h2><span class="cs-n">04</span>Methodology</h2>
+      <ul>
+        <li><strong>Drowsiness:</strong> Eye Aspect Ratio (EAR) from Dlib landmarks, with a per-sequence average to reject blinks.</li>
+        <li><strong>Phone use:</strong> YOLOv8n fine-tuned/Pretrained detection of phone-in-hand while driving.</li>
+        <li><strong>Night:</strong> CLAHE contrast enhancement before landmark detection.</li>
+        <li><strong>Alerting:</strong> escalating alerts — visual + darija voice; critical events via Twilio SMS.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="implementation">
+      <h2><span class="cs-n">05</span>Implementation</h2>
+      <ul>
+        <li>OpenCV capture loop; multi-threaded inference to keep the frame rate high.</li>
+        <li>EAR state machine: idle → suspected → confirmed, with cooldown.</li>
+        <li>moroccan darija audio prompts + Twilio SMS on confirmed critical cases.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="results">
+      <h2><span class="cs-n">06</span>Results</h2>
+      <div class="cs-stats">
+        <div class="cs-stat"><b>91%</b><span>EAR drowsiness detection</span></div>
+        <div class="cs-stat"><b>93%</b><span>phone-use detection</span></div>
+        <div class="cs-stat"><b>37 FPS</b><span>on CPU, no GPU</span></div>
+      </div>
+      <p>Both tracks stay real-time on a plain CPU, and the CLAHE step keeps drowsiness detection usable in low-light/night conditions.</p>
+    </section>
+
+    <section class="cs-sec" id="lessons">
+      <h2><span class="cs-n">07</span>Lessons learned</h2>
+      <ul>
+        <li>Blink rejection is everything — raw EAR is noisy, state machines make it usable.</li>
+        <li>Localized alerts change adoption; a driver reacts to their own language.</li>
+        <li>Balancing two detectors means scheduling work, not dumping frames.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="future">
+      <h2><span class="cs-n">08</span>Future improvements</h2>
+      <ul>
+        <li>Head-pose estimation for distraction and driver-identification.</li>
+        <li>Quantized models for embedded deployment (Pi / Jetson).</li>
+        <li>Dashcam recording and accident-triple telemetry for insurance.</li>
+      </ul>
+    </section>
+
+    <nav class="cs-nav" aria-label="Next case study">
+      <a href="webscada.html"><span>Next case study</span><b>WebSCADA Pro →</b></a>
+      <a href="../index.html#work"><span>Back to</span><b>All selected work</b></a>
+    </nav>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© 2026 EL YOUSFI Hajar</p>
+    <p><a href="#top">Back to top ↑</a></p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

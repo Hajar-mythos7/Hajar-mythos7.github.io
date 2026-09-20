@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proactive Load Balancing in 5G O-RAN — Case Study | EL YOUSFI Hajar</title>
+<meta name="description" content="Case study: AI-driven proactive load balancing in 5G O-RAN using LSTM mobility/load prediction and PPO reinforcement learning in a Near-RT RIC xApp.">
+<meta property="og:title" content="Proactive Load Balancing in 5G O-RAN — Case Study">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050505'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' text-anchor='middle' fill='%2357b8ff'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Primary">
+  <div class="container nav-inner">
+    <a class="brand" href="../index.html"><b>HAJAR</b><span>/</span><b>ELYOUSFI</b></a>
+    <ul class="nav-links">
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#stack">Stack</a></li>
+      <li><a href="../index.html#cv">CV</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta magnetic" href="../assets/cv/Elyousfi_Hajar_CV_Telecom_Reseaux_2027_v2_FR.pdf" target="_blank" rel="noopener">Download CV</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="container">
+    <a class="cs-back" href="../index.html#work">Back to portfolio</a>
+    <p class="cs-kicker">CASE STUDY 01 · 5G O-RAN · AI FOR NETWORKS</p>
+    <h1>Proactive Load Balancing in 5G O-RAN</h1>
+    <p class="cs-sub">An AI-driven xApp concept in the Near-RT RIC — predicting cell load and user mobility, then steering traffic with reinforcement learning before congestion degrades QoE.</p>
+    <div class="cs-meta">
+      <span class="chip">LSTM</span><span class="chip">GRU</span><span class="chip">PPO</span><span class="chip">O-RAN</span><span class="chip">Near-RT RIC</span><span class="chip">Traffic Steering</span>
+    </div>
+  </div>
+</header>
+
+<div class="container cs-layout">
+  <aside class="cs-toc" aria-label="Sections">
+    <p>CONTENTS</p>
+    <a href="#problem">01 · Problem</a>
+    <a href="#context">02 · Context</a>
+    <a href="#architecture">03 · Architecture</a>
+    <a href="#methodology">04 · Methodology</a>
+    <a href="#implementation">05 · Implementation</a>
+    <a href="#results">06 · Results</a>
+    <a href="#lessons">07 · Lessons learned</a>
+    <a href="#future">08 · Future improvements</a>
+  </aside>
+
+  <div class="cs-content">
+    <section class="cs-sec" id="problem">
+      <h2><span class="cs-n">01</span>Problem</h2>
+      <p>In dense 5G deployments, cell load fluctuates quickly as users move and traffic spikes. Reactive load balancing acts after congestion already hurts the experience. The engineering question: can the network <strong>predict</strong> imbalance and redistribute load <strong>before</strong> QoE degrades?</p>
+      <blockquote>Reactive control fixes symptoms. Proactive control models the future and steers ahead of it.</blockquote>
+    </section>
+
+    <section class="cs-sec" id="context">
+      <h2><span class="cs-n">02</span>Context</h2>
+      <p>The O-RAN architecture decouples the control plane via a Near-RT RIC hosting <strong>xApps</strong> that can act on radio decisions within 10 ms to 1 s. Load balancing is a textbook RIC use case — with prediction added, an xApp can anticipate UE distribution and preempt congestion.</p>
+      <ul>
+        <li>Dissertation-grade M2 project on AI-for-networks, positioned in the Near-RT RIC control loop.</li>
+        <li>Modeling: load &amp; mobility trajectories per cell and per user.</li>
+        <li>Decision: policy that maps predicted state to a steering action.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="architecture">
+      <h2><span class="cs-n">03</span>Architecture</h2>
+      <p>The control flow closes the loop between prediction and actuation:</p>
+      <div class="cs-diagram">
+        <p class="cd-label">PROPOSED XAPP CONTROL LOOP</p>
+        <svg viewBox="0 0 540 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="monospace" font-size="11">
+            <g class="vg" stroke="var(--dim)" stroke-width="1.2">
+              <circle cx="248" cy="26" r="8"/><circle cx="270" cy="26" r="8"/><circle cx="292" cy="26" r="8"/>
+            </g>
+            <text x="292" y="54" fill="var(--dim)">UEs</text>
+            <line x1="270" y1="34" x2="270" y2="58" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="170" y="62" width="200" height="30" rx="8" class="vg" stroke-width="1.2"/>
+            <text x="270" y="81" text-anchor="middle" fill="var(--dim)">gNB</text>
+            <line x1="270" y1="92" x2="270" y2="116" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="158" y="120" width="224" height="30" rx="8" class="vg" stroke-width="1.2"/>
+            <text x="270" y="139" text-anchor="middle" fill="var(--dim)">Near-RT RIC</text>
+            <line x1="270" y1="150" x2="270" y2="174" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="140" y="178" width="260" height="32" rx="10" stroke="var(--accent)" stroke-width="1.4"/>
+            <text x="270" y="198" text-anchor="middle" fill="var(--accent)">xApp (prediction + RL policy)</text>
+            <line x1="270" y1="210" x2="270" y2="234" stroke="var(--violet)" stroke-opacity="0.6"/>
+            <rect x="132" y="238" width="276" height="30" rx="8" stroke="var(--violet)" stroke-width="1.2"/>
+            <text x="270" y="257" text-anchor="middle" fill="var(--violet)">LSTM load / mobility prediction</text>
+            <line x1="270" y1="268" x2="270" y2="292" stroke="var(--violet)" stroke-opacity="0.6"/>
+            <rect x="124" y="296" width="292" height="30" rx="8" stroke="var(--violet)" stroke-width="1.2"/>
+            <text x="270" y="315" text-anchor="middle" fill="var(--violet)">PPO decision engine</text>
+            <line x1="270" y1="326" x2="270" y2="350" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="178" y="354" width="184" height="24" rx="7" class="vg" stroke-width="1.2"/>
+            <text x="270" y="370" text-anchor="middle" fill="var(--dim)">traffic steering</text>
+          </g>
+          <path d="M270 210 L410 210 L410 60 L380 60" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 4" opacity="0.4" fill="none"/>
+          <text x="424" y="138" fill="var(--accent)" font-family="monospace" font-size="10" opacity="0.8" transform="rotate(90 424 138)">feedback loop</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="cs-sec" id="methodology">
+      <h2><span class="cs-n">04</span>Methodology</h2>
+      <p>Two model families cooperate inside the xApp:</p>
+      <ul>
+        <li><strong>Prediction (LSTM / GRU):</strong> sequence models over cell load and UE mobility features to estimate near-future state.</li>
+        <li><strong>Decision (PPO):</strong> a policy-gradient RL agent maps the predicted state to per-UE steering actions, rewarding balanced load and stable QoE.</li>
+        <li><strong>Evaluation:</strong> prediction accuracy measured against held-out trajectories; decisions validated on imbalance-reduction and QoE-stability proxies.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="implementation">
+      <h2><span class="cs-n">05</span>Implementation</h2>
+      <ul>
+        <li>Python / NumPy pipelines feeding sequence windows into LSTM-GRU models.</li>
+        <li>PPO policy trained in an integrated simulation of UE arrivals and cell load.</li>
+        <li>Interface mapped to a Near-RT RIC xApp shape — predictor + policy exposed behind one control entry-point.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="results">
+      <h2><span class="cs-n">06</span>Results</h2>
+      <div class="cs-stats">
+        <div class="cs-stat"><b>83–90%</b><span>load &amp; mobility prediction accuracy</span></div>
+        <div class="cs-stat"><b>Proactive</b><span>steering before congestion</span></div>
+        <div class="cs-stat"><b>QoE</b><span>stability — the objective</span></div>
+      </div>
+      <p>Prediction gives the head start; the RL policy converts it into each UE's steering decision. The loop keeps QoE stable instead of reacting to damage.</p>
+    </section>
+
+    <section class="cs-sec" id="lessons">
+      <h2><span class="cs-n">07</span>Lessons learned</h2>
+      <ul>
+        <li>Prediction quality gates everything downstream — a bad forecast turns RL into noise.</li>
+        <li>The reward has to encode QoE stability, not raw balance, or the policy games the metric.</li>
+        <li>Modularity matters: predictor and policy must be swappable inside the xApp shell.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="future">
+      <h2><span class="cs-n">08</span>Future improvements</h2>
+      <ul>
+        <li>Multi-cell coordination and energy-aware objectives.</li>
+        <li>Federated or online fine-tuning from live operator data.</li>
+        <li>Benchmark against standard React-Deny vs. proactive steering in a full O-RAN emulator.</li>
+      </ul>
+    </section>
+
+    <nav class="cs-nav" aria-label="Next case study">
+      <a href="intrusion-camera.html"><span>Next case study</span><b>Intelligent Intrusion Detection Camera →</b></a>
+      <a href="../index.html#work"><span>Back to</span><b>All selected work</b></a>
+    </nav>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© 2026 EL YOUSFI Hajar</p>
+    <p><a href="#top">Back to top ↑</a></p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
