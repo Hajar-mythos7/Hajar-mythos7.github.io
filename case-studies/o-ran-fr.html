@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Équilibrage de charge proactif en 5G O-RAN — Étude de cas | EL YOUSFI Hajar</title>
+<meta name="description" content="Étude de cas : équilibrage de charge proactif en 5G O-RAN piloté par IA — prédiction LSTM de mobilité/charge et apprentissage par renforcement PPO dans un xApp Near-RT RIC.">
+<meta property="og:title" content="Équilibrage de charge proactif en 5G O-RAN — Étude de cas">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#050505">
+<link rel="alternate" hreflang="en" href="o-ran.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Navigation principale">
+  <div class="container nav-inner">
+    <a class="brand" href="../index-fr.html"><b>HAJAR</b><span>/</span><b>ELYOUSFI</b></a>
+    <ul class="nav-links">
+      <li><a href="../index-fr.html#work">Travaux</a></li>
+      <li><a href="../index-fr.html#stack">Compétences</a></li>
+      <li><a href="../index-fr.html#cv">CV</a></li>
+      <li><a href="../index-fr.html#contact">Contact</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta lang-switch" href="o-ran.html" lang="en" title="English version">EN</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta magnetic" href="../assets/cv/Elyousfi_Hajar_CV_Telecom_Reseaux_2027_v2_FR.pdf" target="_blank" rel="noopener">Télécharger CV</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="container">
+    <a class="cs-back" href="../index-fr.html#work">Retour au portfolio</a>
+    <p class="cs-kicker">ÉTUDE DE CAS 01 · 5G O-RAN · IA POUR LES RÉSEAUX</p>
+    <h1>Équilibrage de charge proactif en 5G O-RAN</h1>
+    <p class="cs-sub">Un concept d'xApp IA dans le Near-RT RIC — prédire la charge des cellules et la mobilité des utilisateurs, puis orienter le trafic par apprentissage par renforcement avant que la congestion ne dégrade la QoE.</p>
+    <div class="cs-meta">
+      <span class="chip">LSTM</span><span class="chip">GRU</span><span class="chip">PPO</span><span class="chip">O-RAN</span><span class="chip">Near-RT RIC</span><span class="chip">Traffic Steering</span>
+    </div>
+  </div>
+</header>
+
+<div class="container cs-layout">
+  <aside class="cs-toc" aria-label="Sections">
+    <p>SOMMAIRE</p>
+    <a href="#problem">01 · Problème</a>
+    <a href="#context">02 · Contexte</a>
+    <a href="#architecture">03 · Architecture</a>
+    <a href="#methodology">04 · Méthodologie</a>
+    <a href="#implementation">05 · Implémentation</a>
+    <a href="#results">06 · Résultats</a>
+    <a href="#lessons">07 · Enseignements</a>
+    <a href="#future">08 · Pistes d'amélioration</a>
+  </aside>
+
+  <div class="cs-content">
+    <section class="cs-sec" id="problem">
+      <h2><span class="cs-n">01</span>Problème</h2>
+      <p>Dans les déploiements 5G denses, la charge des cellules fluctue rapidement à mesure que les utilisateurs se déplacent et que le trafic s'intensifie. L'équilibrage réactif agit après que la congestion a déjà dégradé l'expérience. La question d'ingénierie : le réseau peut-il <strong>prédire</strong> le déséquilibre et redistribuer la charge <strong>avant</strong> que la QoE ne se dégrade ?</p>
+      <blockquote>Le contrôle réactif corrige les symptômes. Le contrôle proactif modélise le futur et oriente en avance.</blockquote>
+    </section>
+
+    <section class="cs-sec" id="context">
+      <h2><span class="cs-n">02</span>Contexte</h2>
+      <p>L'architecture O-RAN découple le plan de contrôle via un Near-RT RIC hébergeant des <strong>xApps</strong> capables d'agir sur les décisions radio en 10 ms à 1 s. L'équilibrage de charge est un cas d'usage canonique du RIC — avec de la prédiction en plus, une xApp peut anticiper la répartition des UE et prévenir la congestion.</p>
+      <ul>
+        <li>Projet M2 de niveau mémoire sur l'IA pour les réseaux, positionné dans la boucle de contrôle du Near-RT RIC.</li>
+        <li>Modélisation : trajectoires de charge &amp; de mobilité par cellule et par utilisateur.</li>
+        <li>Décision : une politique qui transforme l'état prédit en action d'orientation de trafic.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="architecture">
+      <h2><span class="cs-n">03</span>Architecture</h2>
+      <p>Le flux de contrôle ferme la boucle entre prédiction et actionnement :</p>
+      <div class="cs-diagram">
+        <p class="cd-label">BOUCLE DE CONTRÔLE XAPP PROPOSÉE</p>
+        <svg viewBox="0 0 540 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="monospace" font-size="11">
+            <g class="vg" stroke="var(--dim)" stroke-width="1.2">
+              <circle cx="248" cy="26" r="8"/><circle cx="270" cy="26" r="8"/><circle cx="292" cy="26" r="8"/>
+            </g>
+            <text x="292" y="54" fill="var(--dim)">UEs</text>
+            <line x1="270" y1="34" x2="270" y2="58" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="170" y="62" width="200" height="30" rx="8" class="vg" stroke-width="1.2"/>
+            <text x="270" y="81" text-anchor="middle" fill="var(--dim)">gNB</text>
+            <line x1="270" y1="92" x2="270" y2="116" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="158" y="120" width="224" height="30" rx="8" class="vg" stroke-width="1.2"/>
+            <text x="270" y="139" text-anchor="middle" fill="var(--dim)">Near-RT RIC</text>
+            <line x1="270" y1="150" x2="270" y2="174" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="140" y="178" width="260" height="32" rx="10" stroke="var(--accent)" stroke-width="1.4"/>
+            <text x="270" y="198" text-anchor="middle" fill="var(--accent)">xApp (prédiction + politique RL)</text>
+            <line x1="270" y1="210" x2="270" y2="234" stroke="var(--violet)" stroke-opacity="0.6"/>
+            <rect x="132" y="238" width="276" height="30" rx="8" stroke="var(--violet)" stroke-width="1.2"/>
+            <text x="270" y="257" text-anchor="middle" fill="var(--violet)">LSTM charge / mobilité</text>
+            <line x1="270" y1="268" x2="270" y2="292" stroke="var(--violet)" stroke-opacity="0.6"/>
+            <rect x="124" y="296" width="292" height="30" rx="8" stroke="var(--violet)" stroke-width="1.2"/>
+            <text x="270" y="315" text-anchor="middle" fill="var(--violet)">pilotage PPO</text>
+            <line x1="270" y1="326" x2="270" y2="350" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="178" y="354" width="184" height="24" rx="7" class="vg" stroke-width="1.2"/>
+            <text x="270" y="370" text-anchor="middle" fill="var(--dim)">traffic steering</text>
+          </g>
+          <path d="M270 210 L410 210 L410 60 L380 60" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 4" opacity="0.4" fill="none"/>
+          <text x="424" y="138" fill="var(--accent)" font-family="monospace" font-size="10" opacity="0.8" transform="rotate(90 424 138)">boucle de rétroaction</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="cs-sec" id="methodology">
+      <h2><span class="cs-n">04</span>Méthodologie</h2>
+      <p>Deux familles de modèles coopèrent à l'intérieur de la xApp :</p>
+      <ul>
+        <li><strong>Prédiction (LSTM / GRU) :</strong> des modèles de séquences sur la charge des cellules et la mobilité des UE pour estimer l'état à court terme.</li>
+        <li><strong>Décision (PPO) :</strong> un agent RL par gradient de politique transforme l'état prédit en actions d'orientation par UE, récompensant l'équilibrage de charge et la stabilité de la QoE.</li>
+        <li><strong>Évaluation :</strong> précision de prédiction mesurée sur des trajectoires hors échantillon ; décisions validées sur la réduction du déséquilibre et des proxies de stabilité QoE.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="implementation">
+      <h2><span class="cs-n">05</span>Implémentation</h2>
+      <ul>
+        <li>Pipelines Python / NumPy alimentant des fenêtres de séquences dans les modèles LSTM-GRU.</li>
+        <li>Politique PPO entraînée dans une simulation intégrée des arrivées UE et de la charge des cellules.</li>
+        <li>Interface mappée à la forme d'une xApp Near-RT RIC — prédicteur + politique exposés derrière un point d'entrée de contrôle unique.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="results">
+      <h2><span class="cs-n">06</span>Résultats</h2>
+      <div class="cs-stats">
+        <div class="cs-stat"><b>83–90%</b><span>précision de prédiction charge &amp; mobilité</span></div>
+        <div class="cs-stat"><b>Proactif</b><span>orientation avant la congestion</span></div>
+        <div class="cs-stat"><b>QoE</b><span>stabilité — l'objectif</span></div>
+      </div>
+      <p>La prédiction donne l'avance ; la politique RL la convertit en décision d'orientation par UE. La boucle maintient la QoE stable au lieu de réagir aux dégâts.</p>
+    </section>
+
+    <section class="cs-sec" id="lessons">
+      <h2><span class="cs-n">07</span>Enseignements</h2>
+      <ul>
+        <li>La qualité de prédiction conditionne tout en aval — une mauvaise prévision transforme le RL en bruit.</li>
+        <li>La récompense doit encoder la stabilité de la QoE, pas le simple équilibre brut, sinon la politique contourne la métrique.</li>
+        <li>La modularité compte : prédicteur et politique doivent être interchangeables dans la coquille xApp.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="future">
+      <h2><span class="cs-n">08</span>Pistes d'amélioration</h2>
+      <ul>
+        <li>Coordination multi-cellules et objectifs sensibles à l'énergie.</li>
+        <li>Fine-tuning fédéré ou en ligne à partir des données opérateur réelles.</li>
+        <li>Benchmark contre l'approche réactive standard (React-Deny) vs steering proactif dans un émulateur O-RAN complet.</li>
+      </ul>
+    </section>
+
+    <nav class="cs-nav" aria-label="Étude de cas suivante">
+      <a href="intrusion-camera-fr.html"><span>Étude de cas suivante</span><b>Caméra intelligente de détection d'intrusion →</b></a>
+      <a href="../index-fr.html#work"><span>Retour</span><b>Tous les travaux sélectionnés</b></a>
+    </nav>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© 2026 EL YOUSFI Hajar</p>
+    <p><a href="#top">Haut de page ↑</a></p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

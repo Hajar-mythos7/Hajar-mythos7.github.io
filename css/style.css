@@ -154,6 +154,7 @@ p { color: var(--muted); }
   background: var(--accent);
 }
 .nav-cta { margin-left: 18px; }
+.lang-switch { min-width: 40px; text-align: center; letter-spacing: 0.06em; padding-left: 12px; padding-right: 12px; color: var(--muted); }
 
 .nav-toggle {
   display: none; background: none; border: 0; cursor: pointer;

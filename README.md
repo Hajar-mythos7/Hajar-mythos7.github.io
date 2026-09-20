@@ -11,18 +11,32 @@ Live: https://hajar-mythos7.github.io
 ## Structure
 
 ```
-index.html                          flagship — full experience
-telecom.html                        direction page — Telecom & Networks (accent teal)
-ia.html                             direction page — AI & Embedded (accent violet)
+index.html                          flagship — full experience (EN)
+index-fr.html                       flagship — version française (FR)
+telecom.html                        direction page — Telecom & Networks, teal accent (EN)
+telecom-fr.html                     version française
+ia.html                             direction page — AI & Embedded, violet accent (EN)
+ia-fr.html                          version française
 case-studies/
   o-ran.html                        Proactive Load Balancing in 5G O-RAN (featured)
+  o-ran-fr.html                     version française
   intrusion-camera.html             Intelligent Intrusion Detection Camera
+  intrusion-camera-fr.html          version française
   ai-safe-drive.html                AI Safe Drive Guardian
+  ai-safe-drive-fr.html             version française
   webscada.html                     WebSCADA Pro
+  webscada-fr.html                  version française
 css/style.css                       shared design system (accent via body.type-*)
 js/main.js                          nav, reveal, hero canvas, cursor, magnetic, reduced-motion
+sitemap.xml                         all 14 pages, EN + FR
 assets/cv/*.pdf                     the 6 CVs (3 directions × FR/EN)
 ```
+
+## Languages
+
+- English is the default (`/`); every page has a French twin `*-fr.html`.
+- A language toggle (EN | FR) sits in the nav of every page and links to the paired version.
+- FR pages carry a `lang="fr"` attribute and an `<link rel="alternate" hreflang="en">` pointing back.
 
 ## Principles
 

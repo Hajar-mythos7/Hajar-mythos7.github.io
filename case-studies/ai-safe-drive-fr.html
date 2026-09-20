@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Safe Drive Guardian — Étude de cas | EL YOUSFI Hajar</title>
+<meta name="description" content="Étude de cas : prototype ADAS localisé pour le Maroc — détection de somnolence (EAR 91%) et d'usage du téléphone (93% à 37 FPS sur CPU), conduite de nuit, alertes darija et SMS.">
+<meta property="og:title" content="AI Safe Drive Guardian — Étude de cas">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#050505">
+<link rel="alternate" hreflang="en" href="ai-safe-drive.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Navigation principale">
+  <div class="container nav-inner">
+    <a class="brand" href="../index-fr.html"><b>HAJAR</b><span>/</span><b>ELYOUSFI</b></a>
+    <ul class="nav-links">
+      <li><a href="../index-fr.html#work">Travaux</a></li>
+      <li><a href="../index-fr.html#stack">Compétences</a></li>
+      <li><a href="../index-fr.html#cv">CV</a></li>
+      <li><a href="../index-fr.html#contact">Contact</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta lang-switch" href="ai-safe-drive.html" lang="en" title="English version">EN</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta magnetic" href="../assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2_FR.pdf" target="_blank" rel="noopener">Télécharger CV</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="container">
+    <a class="cs-back" href="../index-fr.html#work">Retour au portfolio</a>
+    <p class="cs-kicker">ÉTUDE DE CAS 03 · ADAS · VISION PAR ORDINATEUR · EMBARQUÉ</p>
+    <h1>AI Safe Drive Guardian</h1>
+    <p class="cs-sub">Un prototype ADAS localisé pour le Maroc : détection de somnolence via EAR, détection du téléphone au volant avec YOLOv8n à 37 FPS sur CPU, renforcement de la conduite de nuit et alertes darija — voix + SMS.</p>
+    <div class="cs-meta">
+      <span class="chip">YOLOv8</span><span class="chip">OpenCV</span><span class="chip">Dlib</span><span class="chip">Python</span><span class="chip">Twilio</span>
+    </div>
+  </div>
+</header>
+
+<div class="container cs-layout">
+  <aside class="cs-toc" aria-label="Sections">
+    <p>SOMMAIRE</p>
+    <a href="#problem">01 · Problème</a>
+    <a href="#context">02 · Contexte</a>
+    <a href="#architecture">03 · Architecture</a>
+    <a href="#methodology">04 · Méthodologie</a>
+    <a href="#implementation">05 · Implémentation</a>
+    <a href="#results">06 · Résultats</a>
+    <a href="#lessons">07 · Enseignements</a>
+    <a href="#future">08 · Pistes d'amélioration</a>
+  </aside>
+
+  <div class="cs-content">
+    <section class="cs-sec" id="problem">
+      <h2><span class="cs-n">01</span>Problème</h2>
+      <p>La somnolence et l'usage du téléphone au volant sont des causes majeures d'accidents — pourtant beaucoup de systèmes de sécurité exigent du matériel coûteux. L'objectif : un <strong>ADAS basé caméra</strong> qui tourne sur un ordinateur standard, fonctionne de <strong>nuit</strong>, et alerte dans la <strong>langue du conducteur</strong>.</p>
+    </section>
+
+    <section class="cs-sec" id="context">
+      <h2><span class="cs-n">02</span>Contexte</h2>
+      <p>Un projet 2026 avec une vraie contrainte : pas de GPU, pas de SDK propriétaire — Python + OpenCV + Dlib + YOLOv8 purs sur CPU. La localisation comptait : alertes en darija marocain et repli SMS pour les événements critiques.</p>
+    </section>
+
+    <section class="cs-sec" id="architecture">
+      <h2><span class="cs-n">03</span>Architecture</h2>
+      <div class="cs-diagram">
+        <p class="cd-label">PIPELINE DE DÉTECTION</p>
+        <svg viewBox="0 0 540 176" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="monospace" font-size="10.5">
+            <rect x="30" y="58" width="86" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="73" y="79" text-anchor="middle" fill="var(--dim)">frame</text>
+            <line x1="116" y1="75" x2="152" y2="75" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="156" y="58" width="96" height="34" rx="8" stroke="var(--accent)" stroke-width="1.4"/>
+            <text x="204" y="79" text-anchor="middle" fill="var(--accent)">CLAHE nuit</text>
+            <line x1="252" y1="75" x2="288" y2="75" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="292" y="58" width="110" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="347" y="79" text-anchor="middle" fill="var(--dim)">Dlib landmarks</text>
+            <line x1="402" y1="75" x2="438" y2="75" stroke="var(--violet)" stroke-opacity="0.7"/>
+            <rect x="442" y="58" width="72" height="34" rx="8" stroke="var(--violet)" stroke-width="1.2"/>
+            <text x="478" y="79" text-anchor="middle" fill="var(--violet)">EAR</text>
+            <rect x="156" y="124" width="96" height="26" rx="7" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="204" y="141" text-anchor="middle" fill="var(--dim)">YOLOv8 téléphone</text>
+            <rect x="442" y="124" width="72" height="26" rx="7" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="478" y="141" text-anchor="middle" fill="var(--dim)">alerte</text>
+            <line x1="204" y1="92" x2="204" y2="122" stroke="var(--accent)" stroke-opacity="0.4"/>
+            <line x1="478" y1="92" x2="478" y2="122" stroke="var(--accent)" stroke-opacity="0.4"/>
+          </g>
+        </svg>
+      </div>
+      <p>Deux pistes parallèles alimentent un seul moteur d'alerte : <strong>somnolence</strong> (landmarks → EAR) et <strong>usage du téléphone</strong> (détection d'objet YOLOv8).</p>
+    </section>
+
+    <section class="cs-sec" id="methodology">
+      <h2><span class="cs-n">04</span>Méthodologie</h2>
+      <ul>
+        <li><strong>Somnolence :</strong> Eye Aspect Ratio (EAR) calculé depuis les landmarks Dlib, avec moyenne par séquence pour rejeter les clignements.</li>
+        <li><strong>Téléphone :</strong> détection YOLOv8n du téléphone en main au volant.</li>
+        <li><strong>Nuit :</strong> renforcement de contraste CLAHE avant la détection des landmarks.</li>
+        <li><strong>Alerte :</strong> escalade — visuelle + voix darija ; événements critiques via SMS Twilio.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="implementation">
+      <h2><span class="cs-n">05</span>Implémentation</h2>
+      <ul>
+        <li>Boucle de capture OpenCV ; inférence multi-threadée pour garder un débit d'images élevé.</li>
+        <li>Machine à états EAR : repos → suspicion → confirmation, avec cooldown.</li>
+        <li>Instructions audio en darija marocain + SMS Twilio sur cas critiques confirmés.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="results">
+      <h2><span class="cs-n">06</span>Résultats</h2>
+      <div class="cs-stats">
+        <div class="cs-stat"><b>91%</b><span>détection de somnolence EAR</span></div>
+        <div class="cs-stat"><b>93%</b><span>détection du téléphone au volant</span></div>
+        <div class="cs-stat"><b>37 FPS</b><span>sur CPU, sans GPU</span></div>
+      </div>
+      <p>Les deux pistes restent en temps réel sur un simple CPU, et l'étape CLAHE garde la détection de somnolence utilisable en faible luminosité et de nuit.</p>
+    </section>
+
+    <section class="cs-sec" id="lessons">
+      <h2><span class="cs-n">07</span>Enseignements</h2>
+      <ul>
+        <li>Le rejet des clignements est essentiel — l'EAR brut est bruité, les machines à états le rendent exploitable.</li>
+        <li>Les alertes localisées changent l'adoption ; un conducteur réagit à sa propre langue.</li>
+        <li>Équilibrer deux détecteurs signifie planifier le travail, pas déverser les images brutes.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="future">
+      <h2><span class="cs-n">08</span>Pistes d'amélioration</h2>
+      <ul>
+        <li>Estimation de pose de la tête pour la distraction et l'identification du conducteur.</li>
+        <li>Modèles quantifiés pour un déploiement embarqué (Pi / Jetson).</li>
+        <li>Enregistrement dashcam et télémétrie triple pour l'assurance.</li>
+      </ul>
+    </section>
+
+    <nav class="cs-nav" aria-label="Étude de cas suivante">
+      <a href="webscada-fr.html"><span>Étude de cas suivante</span><b>WebSCADA Pro →</b></a>
+      <a href="../index-fr.html#work"><span>Retour</span><b>Tous les travaux sélectionnés</b></a>
+    </nav>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© 2026 EL YOUSFI Hajar</p>
+    <p><a href="#top">Haut de page ↑</a></p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

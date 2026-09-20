@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caméra intelligente de détection d'intrusion — Étude de cas | EL YOUSFI Hajar</title>
+<meta name="description" content="Étude de cas : caméra de détection d'intrusion IA embarquée sur Raspberry Pi 4 — YOLOv8n, alertes à 3 niveaux et MQTT, développée lors d'un stage PFA 2026.">
+<meta property="og:title" content="Caméra intelligente de détection d'intrusion — Étude de cas">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#050505">
+<link rel="alternate" hreflang="en" href="intrusion-camera.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Navigation principale">
+  <div class="container nav-inner">
+    <a class="brand" href="../index-fr.html"><b>HAJAR</b><span>/</span><b>ELYOUSFI</b></a>
+    <ul class="nav-links">
+      <li><a href="../index-fr.html#work">Travaux</a></li>
+      <li><a href="../index-fr.html#stack">Compétences</a></li>
+      <li><a href="../index-fr.html#cv">CV</a></li>
+      <li><a href="../index-fr.html#contact">Contact</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta lang-switch" href="intrusion-camera.html" lang="en" title="English version">EN</a></li>
+      <li><a class="btn btn--ghost btn--sm nav-cta magnetic" href="../assets/cv/Elyousfi_Hajar_CV_AI_Systemes_Embarques_2027_v2_FR.pdf" target="_blank" rel="noopener">Télécharger CV</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="cs-hero">
+  <div class="container">
+    <a class="cs-back" href="../index-fr.html#work">Retour au portfolio</a>
+    <p class="cs-kicker">ÉTUDE DE CAS 02 · PFA 2026 · IA EMBARQUÉE · VISION PAR ORDINATEUR</p>
+    <h1>Caméra intelligente de détection d'intrusion</h1>
+    <p class="cs-sub">Une caméra de détection de personnes fonctionnant entièrement sur un Raspberry Pi 4 — YOLOv8n pour la perception, logique d'alerte à 3 niveaux et MQTT pour l'intégration.</p>
+    <div class="cs-meta">
+      <span class="chip">Raspberry Pi 4</span><span class="chip">YOLOv8n</span><span class="chip">OpenCV</span><span class="chip">MQTT</span><span class="chip">GPIO</span>
+    </div>
+  </div>
+</header>
+
+<div class="container cs-layout">
+  <aside class="cs-toc" aria-label="Sections">
+    <p>SOMMAIRE</p>
+    <a href="#problem">01 · Problème</a>
+    <a href="#context">02 · Contexte</a>
+    <a href="#architecture">03 · Architecture</a>
+    <a href="#methodology">04 · Méthodologie</a>
+    <a href="#implementation">05 · Implémentation</a>
+    <a href="#results">06 · Résultats</a>
+    <a href="#lessons">07 · Enseignements</a>
+    <a href="#future">08 · Pistes d'amélioration</a>
+  </aside>
+
+  <div class="cs-content">
+    <section class="cs-sec" id="problem">
+      <h2><span class="cs-n">01</span>Problème</h2>
+      <p>Les caméras d'intrusion classiques basées sur le mouvement se noient dans les fausses alertes — n'importe quelle ombre en mouvement les déclenche. L'objectif : une caméra qui détecte <strong>spécifiquement les personnes</strong>, tourne sur une <strong>carte embarquée économique</strong>, et alerte avec <strong>trois niveaux de gravité</strong> au lieu d'un simple signal binaire.</p>
+    </section>
+
+    <section class="cs-sec" id="context">
+      <h2><span class="cs-n">02</span>Contexte</h2>
+      <p>Livré comme stage PFA 2026. Contraintes : un seul Raspberry Pi 4, caméra USB, pas de GPU, faible latence, et une intégration propre avec les écosystèmes d'appareils existants via <strong>MQTT</strong>.</p>
+      <ul>
+        <li>Inférence 100 % embarquée — aucun aller-retour cloud.</li>
+        <li>Alerte à trois niveaux : détecter → confirmer → escalader.</li>
+        <li>Actionnement physique via GPIO (LED / buzzer).</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="architecture">
+      <h2><span class="cs-n">03</span>Architecture</h2>
+      <div class="cs-diagram">
+        <p class="cd-label">PIPELINE (SUR L'APPAREIL)</p>
+        <svg viewBox="0 0 540 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g font-family="monospace" font-size="10.5">
+            <rect x="30" y="60" width="100" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="80" y="81" text-anchor="middle" fill="var(--dim)">frame</text>
+            <line x1="130" y1="77" x2="168" y2="77" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="172" y="60" width="116" height="34" rx="8" stroke="var(--accent)" stroke-width="1.4"/>
+            <text x="230" y="81" text-anchor="middle" fill="var(--accent)">YOLOv8n</text>
+            <line x1="288" y1="77" x2="326" y2="77" stroke="var(--accent)" stroke-opacity="0.5"/>
+            <rect x="330" y="60" width="88" height="34" rx="8" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="374" y="81" text-anchor="middle" fill="var(--dim)">confidence</text>
+            <line x1="418" y1="77" x2="456" y2="77" stroke="var(--violet)" stroke-opacity="0.7"/>
+            <rect x="460" y="60" width="52" height="34" rx="8" stroke="var(--violet)" stroke-width="1.2"/>
+            <text x="486" y="81" text-anchor="middle" fill="var(--violet)">niveau</text>
+            <rect x="172" y="126" width="116" height="26" rx="7" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="230" y="143" text-anchor="middle" fill="var(--dim)">GPIO</text>
+            <rect x="460" y="126" width="52" height="26" rx="7" stroke="var(--dim)" stroke-width="1.2"/>
+            <text x="486" y="143" text-anchor="middle" fill="var(--dim)">MQTT</text>
+            <line x1="230" y1="94" x2="230" y2="124" stroke="var(--accent)" stroke-opacity="0.4"/>
+            <line x1="486" y1="94" x2="486" y2="124" stroke="var(--accent)" stroke-opacity="0.4"/>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="cs-sec" id="methodology">
+      <h2><span class="cs-n">04</span>Méthodologie</h2>
+      <ul>
+        <li><strong>Modèle :</strong> YOLOv8n — choisi pour une inférence efficace sur CPU sur le Pi 4.</li>
+        <li><strong>Logique :</strong> seuils de confiance mappés à 3 niveaux d'alerte, débouncés dans le temps pour éviter le clignotement.</li>
+        <li><strong>Sorties :</strong> GPIO (LED / buzzer) pour l'actionnement local + topic MQTT pour les tableaux de bord distants.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="implementation">
+      <h2><span class="cs-n">05</span>Implémentation</h2>
+      <ul>
+        <li>Boucle de capture Python + OpenCV branchée sur le détecteur YOLOv8n.</li>
+        <li>Machine à états de cooldown et d'escalade pour les niveaux d'alerte.</li>
+        <li>Broker MQTT publiant les événements de détection avec niveau et horodatage.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="results">
+      <h2><span class="cs-n">06</span>Résultats</h2>
+      <div class="cs-stats">
+        <div class="cs-stat"><b>3 niveaux</b><span>escalade d'alerte sur l'appareil</span></div>
+        <div class="cs-stat"><b>Edge</b><span>zéro dépendance cloud</span></div>
+        <div class="cs-stat"><b>MQTT</b><span>intégration propre des appareils</span></div>
+      </div>
+      <p>La détection spécifique des personnes a éliminé le problème de fausses alertes des capteurs de mouvement classiques, et la logique à 3 niveaux donne aux opérateurs une escalade signifiante au lieu d'un simple « bip » binaire.</p>
+    </section>
+
+    <section class="cs-sec" id="lessons">
+      <h2><span class="cs-n">07</span>Enseignements</h2>
+      <ul>
+        <li>Le choix du modèle est un compromis latence/précision — un YOLO nano est ce qui rend l'edge possible.</li>
+        <li>Les machines à états comptent plus que le modèle dans l'UX d'alerte : débounce, cooldown, escalade.</li>
+        <li>MQTT découple la caméra de ses consommateurs — un appareil, plusieurs tableaux de bord.</li>
+      </ul>
+    </section>
+
+    <section class="cs-sec" id="future">
+      <h2><span class="cs-n">08</span>Pistes d'amélioration</h2>
+      <ul>
+        <li>Files de messages et compensation de mouvement de caméra pour les sites multi-caméras.</li>
+        <li>Anonymisation respectueuse de la vie privée avant toute synchronisation hors appareil.</li>
+        <li>Quantification du modèle (INT8) pour pousser le nombre d'images par seconde encore plus haut.</li>
+      </ul>
+    </section>
+
+    <nav class="cs-nav" aria-label="Étude de cas suivante">
+      <a href="ai-safe-drive-fr.html"><span>Étude de cas suivante</span><b>AI Safe Drive Guardian →</b></a>
+      <a href="../index-fr.html#work"><span>Retour</span><b>Tous les travaux sélectionnés</b></a>
+    </nav>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© 2026 EL YOUSFI Hajar</p>
+    <p><a href="#top">Haut de page ↑</a></p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
