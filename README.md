@@ -3,24 +3,29 @@
 Site portfolio d'**EL YOUSFI Hajar** — étudiante ingénieure M2 (Télécoms, Systèmes Embarqués & IA), FSTM.
 Stage PFE de 6 mois dès février 2027 (Casablanca / Rabat).
 
-## Contenu
+## Versions du site
 
-- Page d'accueil : présentation, compétences, projets (Licence 2025 + stage/projets récents), certifications
-- 3 CV (Télécoms & Réseaux, Systèmes Embarqués & IA, Généraliste) en versions FR et EN (PDF)
+| Page | Profil |
+|---|---|
+| `index.html` | Généraliste — Télécoms + Embarqué + Développement |
+| `telecom.html` | Télécoms & Réseaux uniquement |
+| `ia.html` | Systèmes Embarqués & Intelligence Artificielle uniquement |
 
-## Hébergement
-
-Déployé sur **GitHub Pages** : https://Hajar-mythos7.github.io
+Chaque page a son accent couleur, son hero, ses compétences, ses projets et son CV (FR/EN).
 
 ## Structure
 
 ```
-index.html        → page principale
-css/style.css     → styles
-js/main.js        → navigation mobile + filtres projets
-assets/cv/*.pdf   → les 6 CV (3 profils × FR/EN)
+index.html / telecom.html / ia.html → les 3 pages
+css/style.css                       → design moderne (thèmes par body class)
+js/main.js                          → nav, filtres projets, animations au scroll
+assets/cv/*.pdf                     → les 6 CV (3 profils × FR/EN)
 ```
 
 ## Mise à jour
 
-Après une modification, pousser sur la branche `main` pour publier automatiquement.
+Après modification : `git add -A && git commit -m "message" && git push` → GitHub Pages publie automatiquement.
+
+## Hébergement
+
+https://Hajar-mythos7.github.io
