@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://hajar-mythos7.github.io/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://hajar-mythos7.github.io/telecom.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://hajar-mythos7.github.io/ia.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://hajar-mythos7.github.io/case-studies/o-ran.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://hajar-mythos7.github.io/case-studies/intrusion-camera.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://hajar-mythos7.github.io/case-studies/ai-safe-drive.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://hajar-mythos7.github.io/case-studies/webscada.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>
