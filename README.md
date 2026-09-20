@@ -17,8 +17,8 @@ Chaque page a son accent couleur, son hero, ses compétences, ses projets et son
 
 ```
 index.html / telecom.html / ia.html → les 3 pages
-css/style.css                       → design moderne (thèmes par body class)
-js/main.js                          → nav, filtres projets, animations au scroll
+css/style.css                       → design system moderne (thèmes par body class)
+js/main.js                          → nav, réseau de particules, filtres, reveal, retour haut
 assets/cv/*.pdf                     → les 6 CV (3 profils × FR/EN)
 ```
 
